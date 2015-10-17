@@ -5,6 +5,7 @@ class NewVisitorTest(unittest.TestCase):
 
 	def setUp(self):
 		self.browser = webdriver.Firefox()
+		# we tell the browsewr to implicitly wait 3 seconds
 		self.browser.implicitly_wait(3)
 
 
@@ -18,7 +19,7 @@ class NewVisitorTest(unittest.TestCase):
 		self.browser.get('http://localhost:8000')
 
 		# She notices the page title and heade mentio to-do lists
-		self.assertIn('To-Do', self.browser.title)
+		self.assertIn('To-Do lists', self.browser.title)
 		self.fail("Finish the test!")
 
 
