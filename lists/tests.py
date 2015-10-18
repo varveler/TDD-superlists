@@ -1,6 +1,7 @@
 from django.core.urlresolvers import resolve
 from django.test import TestCase
 from django.http import HttpRequest
+from django.template.loader import render_to_string
 
 from lists.views import home_page
 
@@ -16,6 +17,7 @@ class HomePageTest(TestCase):
 		#resolve is the function Django uses interanlly to 
 		#resolve URLS and find what view funciont should map to
 		found = resolve('/')
+		#here we are checking in the found url '/' django finds a function called home_page
 		self.assertEqual(found.func, home_page)
 
 
@@ -29,6 +31,10 @@ class HomePageTest(TestCase):
 
 		# the we want it to have these properties:
 		# b stands for raw bites, not strings
-		self.assertTrue(response.content.startswith(b'<html>'))
-		self.assertIn(b'<tittle>To-Do lists</tittle>', response.content)
-		self.assertTrue(response.content.endswith(b'</html>'))
+		#self.assertTrue(response.content.startswith(b'<html>'))
+		#self.assertIn(b'<title>To-Do lists</title>', response.content)
+		#self.assertTrue(response.content.endswith(b'</html>'))
+
+		# in order not to check constants we do the followinf code
+		expected_html = render_to_string('home.html')
+		self.assertEqual(response.content.decode(), expected_html)
