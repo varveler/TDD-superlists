@@ -1,4 +1,5 @@
 from django.core.urlresolvers import resolve
+from django.shortcuts import redirect, render
 from django.test import TestCase
 from django.http import HttpRequest
 from django.template.loader import render_to_string
@@ -50,15 +51,41 @@ class HomePageTest(TestCase):
 		request.POST['item_text'] = 'A new list item'
 
 		response = home_page(request)
+		# Check if the objetc is in Items
+		self.assertEqual(Item.objects.count(), 1)
+		new_item = Item.objects.first()
+		# Check if the text is te same for first object
+		self.assertEqual(new_item.text, "A new list item")
 
-		self.assertIn('A new list item', response.content.decode())
-		expected_html = render_to_string(
-        'home.html',
-        {'new_item_text':  'A new list item'}
-    )
-		self.assertEqual(response.content.decode(), expected_html)
-		print ('---> test home page can save a POST request')
+		# Check it the text is in the rendering of the page
+		#self.assertIn('A new list item', response.content.decode())
+		#expected_html = render_to_string(
+        #								'home.html',
+        #								{'new_item_text':  'A new list item'}
+    	#							)
+		# Check that the rendering of the page is correct, with the correct Item.text on it
+		#self.assertEqual(response.content.decode(), expected_html)
+		#print ('---> test home page can save a POST request')
 
+		# 302 is the Redirect Code
+		self.assertEqual(response.status_code, 302)
+		self.assertEqual(response['location'], '/')
+
+	def test_home_page_only_saves_items_when_necesary(self):
+		request = HttpRequest()
+		home_page(request)
+		# No POST Request has made, check that there are no saved objects
+		self.assertEqual(Item.objects.count(), 0)
+
+	def test_home_page_displays_all_list_items(self):
+		Item.objects.create(text='itemey 1')
+		Item.objects.create(text='itemey 2')
+
+		request = HttpRequest()
+		response = home_page(request)
+
+		self.assertIn('itemey 1', response.content.decode())
+		self.assertIn('itemey 2', response.content.decode())
 
 
 class ItemModelTest(TestCase):
