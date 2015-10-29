@@ -63,7 +63,7 @@ class NewVisitorTest(LiveServerTestCase):
 		self.check_for_row_in_list_table('1: Buy peacock feathers')
 		self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
 
-		#self.fail('Finish the Tests!')
+		
 
 		# Now a new user, Francis, comes along to the site.
 
@@ -90,6 +90,7 @@ class NewVisitorTest(LiveServerTestCase):
 		self.assertRegex(francis_list_url, '/lists/.+')
 		self.assertNotEqual(francis_list_url, edith_list_url)
 
+		self.fail('Finish the Tests!')
 
 #Edith wonders whether the site will remember her list. Then she sees
 # that the site has generated a unique URL for her -- there is some 
