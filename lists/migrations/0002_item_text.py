@@ -14,7 +14,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='item',
             name='text',
-            field=models.TextField(default=b''),
-            preserve_default=True,
+            field=models.TextField(default=''),
         ),
     ]
