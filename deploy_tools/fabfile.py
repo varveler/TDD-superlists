@@ -10,7 +10,7 @@ def deploy():
 	_create_directory_structure_if_necessary(site_folder)
 	_get_latest_source(source_folder)
 	_update_settings(source_folder, env.host)
-	_upadte_virtualenv(source_folder)
+	_update_virtualenv(source_folder, site_folder)
 	_update_static_files(source_folder)
 	_update_database(source_folder)
 
@@ -63,11 +63,11 @@ def _update_settings(source_folder, site_name):
 	#4 Using relative import from .secret.. to make sure we are importing from local module
 	#instead of somewhere in the sys.path
 
-def _update_virtual_env(source_folder):
-	virtualenv_folder = source_folder + '/../virtualenv'
+def _update_virtualenv(source_folder, site_folder):
+	virtualenv_folder = site_folder + '/virtualenv'
 	if not exists(virtualenv_folder + '/bin/pip'): #1
 		run('virtualenv --python=python3 %s/requirements.txt' % (virtualenv_folder,))
-	run ('%s/bin/pip/ install -r %s/requirements.txt' % ( #2
+	run('%s/bin/pip/ install -r %s/requirements.txt' % ( #2
 			virtualenv_folder, source_folder))
 	#1 This searchs inside virtual env folder a pip executable to check if exists
 
