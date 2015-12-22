@@ -1,34 +1,29 @@
-from unittest import skip
 from .base import FunctionalTest
+import time
 
-class ItemValidationTest(FunctionalTest):
 
-	def test_cannot_add_empty_list_items(self):
-		#Edith goes to home page and accidentaly tries to submit
-		# an empty list item. She hits Enter on the empty input inbox
+class LayoutAndStylingTest(FunctionalTest):
+
+	def test_layout_and_styling(self):
+		#Edith goes to the home page
 		self.browser.get(self.server_url)
-		self.browser.find_element_by_id('id_new_item').send_keys('\n')
+		self.browser.set_window_size(1024, 768)
+		time.sleep(2)
 
-		#The home page refreshes and there is an error message saying
-		# that list items cannot be blank
-		error = self.browser.find_element_by_css_selector('.has-error')
-		self.assertEqual(error.text, "You can't have an empty list item")
+		#She notices the input box is nicely centered
+		inputbox = self.browser.find_element_by_id('id_new_item')
+		self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width'] / 2, 
+			512, 
+			delta=5
+			)
 
-		#She tries againwith some text for the item, wich now works
-		self.browser.find_element_by_id('id_new_item').send_keys('Buy milk\n')
-		self.check_for_row_in_list_table('1: Buy milk')		
-
-		#Perversly, she now decides to submit a second blank list item.
-		self.browser.find_element_by_id('id_new_item').send_keys('\n')
-
-
-		#She recieves a similar warning on the list page
-		self.check_for_row_in_list_table('1: Buy milk')		
-		error = self.browser.find_element_by_css_selector('.has-error')
-		self.assertEqual(error.text, "You can't have an empty list item")		
-
-		#And she can correct it by filling some text in
-		self.browser.find_element_by_id('id_new_item').send_keys('Buy milk\n')
-		self.check_for_row_in_list_table('1: Buy milk')
-		self.check_for_row_in_list_table('2: Make tea')		
-
+		#She starts a new list and sees the input is nicely
+		# centered there too
+		inputbox.send_keys('testing\n')
+		time.sleep(2)
+		inputbox = self.browser.find_element_by_id('id_new_item')
+		self.assertAlmostEqual(
+			inputbox.location['x'] + inputbox.size['width']/2,
+			512,
+			delta=5
+			) 
