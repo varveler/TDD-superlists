@@ -19,27 +19,27 @@ class NewVisitorTest(FunctionalTest):
 		self.assertIn('To-Do lists', self.browser.title)
 		header_text = self.browser.find_element_by_tag_name('h1').text
 		self.assertIn('To-Do', header_text)
-		
+
 		# She is invited to enter a to-do item straight away
 		inputbox = self.get_item_input_box()
 		self.assertEqual(
 			inputbox.get_attribute('placeholder'),
 			'Enter a to-do item'
 			)
-		
+
 
 		#She types "Buy peacock feathers" into a text box
 		inputbox.send_keys('Buy peacock feathers')
 
 		#When she hits Enter, shes taken to a new URL
-		#and now the page lists "1: Buy peacock feathers" as an item 
+		#and now the page lists "1: Buy peacock feathers" as an item
 		#in a to-do list
 		inputbox.send_keys(Keys.ENTER)
 		edith_list_url = self.browser.current_url
 		self.assertRegex(edith_list_url, '/lists/.+')
 		self.check_for_row_in_list_table('1: Buy peacock feathers')
 
-		
+
 		#There is still a text box inviting her to add another item. She
 		# enters "Use peacock feathers to make a fly"
 		inputbox = self.get_item_input_box()
@@ -50,7 +50,7 @@ class NewVisitorTest(FunctionalTest):
 		self.check_for_row_in_list_table('1: Buy peacock feathers')
 		self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
 
-		
+
 
 		# Now a new user, Francis, comes along to the site.
 
@@ -81,7 +81,7 @@ class NewVisitorTest(FunctionalTest):
 
 
 #Edith wonders whether the site will remember her list. Then she sees
-# that the site has generated a unique URL for her -- there is some 
+# that the site has generated a unique URL for her -- there is some
 # explanatory text to that effect
 
 # She visists that URL - her to-do list is still there
