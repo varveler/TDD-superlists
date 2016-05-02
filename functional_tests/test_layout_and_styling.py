@@ -8,7 +8,7 @@ class LayoutAndStylingTest(FunctionalTest):
 		#Edith goes to the home page
 		self.browser.get(self.server_url)
 		self.browser.set_window_size(1024, 768)
-		time.sleep(2)
+		#time.sleep(2)
 
 		#She notices the input box is nicely centered
 		inputbox = self.get_item_input_box()

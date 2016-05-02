@@ -3,6 +3,8 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 
+def get_error_element(self):
+	return self.browser.find_element_by_css_selector('.has-error')
 
 #class NewVisitorTest(unittest.TestCase):
 class NewVisitorTest(FunctionalTest):
@@ -45,7 +47,7 @@ class NewVisitorTest(FunctionalTest):
 		inputbox = self.get_item_input_box()
 		inputbox.send_keys('Use peacock feathers to make a fly')
 		inputbox.send_keys(Keys.ENTER)
-		time.sleep(4)
+		# time.sleep(4)
 		# The page updates again, and now shows both items on her list
 		self.check_for_row_in_list_table('1: Buy peacock feathers')
 		self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
